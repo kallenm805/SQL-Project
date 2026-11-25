@@ -28,6 +28,9 @@ HAVING COUNT(tf.fan_id) >= 2;
 
 -- Task 4
 
+
+-- BEFORE TRIGGER
+-- Checks if a seat has already been reserved
 DELIMITER //
 
 CREATE TRIGGER check_seat_availability
@@ -64,13 +67,43 @@ END //
 
 DELIMITER ;
 
+
+-- AFTER INSERT TRIGGER
+-- Updates the total number of tickets sold for a concert.
+
+DELIMITER //
+
+CREATE TRIGGER update_total_tickets_sold
+AFTER INSERT ON concert_tickets
+FOR EACH ROW
+
+BEGIN
+
+    -- Increment the ticket count for the associated concert
+    UPDATE concerts
+    SET total_tickets_sold = total_tickets_sold + 1
+    WHERE concert_id = NEW.concert_id;
+
+END //
+
+DELIMITER ;
+
+-- Initialise ticket counts for tickets already inserted
+UPDATE concerts c
+SET total_tickets_sold = (
+    SELECT COUNT(*)
+    FROM concert_tickets ct
+    WHERE ct.concert_id = c.concert_id
+);
+
+
 -- Task 5
 
 DELIMITER //
 
 CREATE FUNCTION total_seats_reserved(p_concert_id INT)
 RETURNS INT
-DETERMINISTIC
+NOT DETERMINISTIC
 READS SQL DATA
 
 BEGIN

@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS concerts (
     concert_title VARCHAR(256) NOT NULL,
     location VARCHAR(256) NOT NULL,
     date_of_concert DATE NOT NULL,
+    total_tickets_sold INT UNSIGNED NOT NULL DEFAULT 0,
 
     PRIMARY KEY (concert_id)
 ) ENGINE=InnoDB;
