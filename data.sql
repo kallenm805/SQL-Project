@@ -92,7 +92,7 @@ INSERT INTO concert_tickets
 (ticket_id,concert_id,purchase_date,ticket_price)
 VALUES
 (1,1,'1965-07-07',45),
-(2,1,'1962-06-10',45),
+(2,1,'1965-06-10',45),
 (3,2,'1982-03-15',60);
 
 -- Fan Favourite Artists
